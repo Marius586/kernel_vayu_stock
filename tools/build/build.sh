@@ -20,7 +20,7 @@ export PATH="$CLANG_DIR/bin:$PATH"
 
 if ! [ -d "$CLANG_DIR" ]; then
     echo "Toolchain not found! Cloning to $CLANG_DIR..."
-    if ! git clone --depth=1 https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r498229b.git -b 14.0 $CLANG_DIR; then
+    if ! git clone --depth=1 https://android.googlesource.com/platform/external/llvm $CLANG_DIR; then
         echo "Cloning failed! Aborting..."
         exit 1
     fi
@@ -46,11 +46,8 @@ compile()
     O=out \
     ARCH=${ARCH}\
     CC="ccache clang" \
-    CROSS_COMPILE=aarch64-linux-gnu- \
-    CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-    CROSS_COMPILE_COMPAT=arm-linux-gnueabi- \
-    AR=llvm-ar \
-    LLVM_NM=llvm-nm \
+    CROSS_COMPILE=aarch64-linux-android- \
+    LLVM=llvm- \
     OBJCOPY=llvm-objcopy \
     LD=ld.lld NM=llvm-nm \
     LLVM=1 \
